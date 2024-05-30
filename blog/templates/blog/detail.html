@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}" type="text/css">
+{% endblock style %}
+
+{% block main %}
+
+<div class="card text-center mt-5">
+
+    <div class="card-header d-flex justify-content-between">
+        <div>
+            {{ post.category }}
+        </div>
+        <div class="d-flex justify-content-between">
+            <div style="margin-right: 15px;">
+               By: {{ post.author }}
+            </div>
+            <div style="margin-right: 15px;">
+                {{ post.views }} <i class="far fa-eye"></i>
+            </div>
+            {% if perms.blog.change_post %}
+            <div style="margin-right: 15px;">
+                <a href="{% url 'post_update' post.pk %}"><i class="fas fa-arrow-rotate-right"></i></a>
+            </div>
+            {% endif %}
+            {% if perms.blog.delete_post %}
+            <div>
+                <a href="{% url 'post_delete' post.pk %}"><i class="fas fa-box-archive"></i></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if post.photo %}
+    <img src="{{ post.photo.url }}" class="card-img-top" alt="Wild Landscape"/>
+    {% else %}
+    <img src="https://images.wondershare.com/repairit/aticle/2021/07/resolve-images-not-showing-problem-1.jpg" class="card-img-top" alt="Wild Landscape"/>
+    {% endif %}
+    <div class="card-body">
+
+        <h5 class="card-title">{{ post.name }}</h5>
+        <h6 class="card-title">{{ post.price }}</h6>
+
+        <p class="card-text">
+            {{ post.content|linebreaks }}
+        </p>
+        <div class="card-text">
+            <small class="text-muted">Last updated {{ post.created |date:"D d M Y" }} ago</small>
+        </div>
+        <div>
+            <form method="post" action="{% url 'create_comment' post.pk %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="✈️">
+            </form>
+        </div>
+    </div>
+</div>
+
+<h3>Komentaryalar</h3>
+
+<div>
+    {% for comment in comments %}
+    <ul>
+        <li>{{ comment.text }}</li>
+        <li>{{ comment.created }}</li>
+        <li>{{ comment.author }}</li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock main %}
+

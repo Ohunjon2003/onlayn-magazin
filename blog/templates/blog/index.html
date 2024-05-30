@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load blog_extras %}
+
+
+{% block title %}
+{{ block.super }}: Mahsulotlar sahifasi
+{% endblock title %}
+
+
+{% block main %}
+<h1 class="mt-5 mb-5">kategoryalar</h1>
+
+<div class="d-flex justify-content-between">
+    <div class="col-3">
+        <div class="list-group list-group-light" style="border:1px solid black;">
+            {% all_categories as categories %}
+            {% for category in categories %}
+            <a href="{% url 'bolim' category.pk %}" class="list-group-item list-group-item-action px-3 border-0">
+                {{ category.title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+    {% for post in posts %}
+
+        <div class="col-3">
+
+
+            <a href="{% url 'post_detail' post.pk %}"><div class="card h-100">
+                {% if post.photo %}
+                <img src="{{ post.photo.url }}" class="card-img-top"
+                     alt="Skyscrapers"/>
+
+                {% else %}
+                <img src="https://images.wondershare.com/repairit/aticle/2021/07/resolve-images-not-showing-problem-1.jpg"
+                     class="card-img-top"
+                     alt="Skyscrapers"/>
+
+                {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.name }}</h5>
+                        <p class="card-text">
+                            {{ post.content |truncatewords:10 }}
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated {{ post.created |date:"D d M Y" }} ago</small>
+                    </div>
+
+
+            </div></a>
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+{% endblock main %}
+
+
+
+

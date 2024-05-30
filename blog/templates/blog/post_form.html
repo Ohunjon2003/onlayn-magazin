@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.name }}
+    {{ form.content }}
+    {{ form.price }}
+    <label>Kategoriya</label>
+    {{ form.category }}
+    <label>Rasmi</label>
+    {{ form.photo }}
+    <label>Saytga chiqarish</label>
+    {{ form.published }}
+    <div>
+    <button type="submit" class="btn btn-primary" style="margin-top:30px;">Saqlash</button>
+    </div>
+</form>
+
+{% endblock main %}

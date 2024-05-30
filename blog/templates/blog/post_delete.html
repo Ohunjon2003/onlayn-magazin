@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<form method="post">
+    {% csrf_token %}
+    <p><b>{{ post.name }}</b>Shu mahsulotni o'chirasizmi?</p>
+    <a href="{% url 'index' %}">Ortga</a>
+
+    <button type="submit">Tasdiqlayman</button>
+
+</form>
+{% endblock main %}
